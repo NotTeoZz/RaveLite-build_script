@@ -12,30 +12,29 @@ txtrst=$(tput sgr0)             # reset
 blink=$(tput blink)             # blink
 
 echo "$(tput setaf 2)"
-echo "  Lavender Build script by Peppe289 "
+echo "  Lavender Build script by TeoZz "
 echo "${txtrst}"
 
-export CROSS_COMPILE=/home/matteo/Scrivania/Build/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-export CROSS_COMPILE_ARM32=/home/matteo/Scrivania/Build/arm-eabi-4.8/bin/arm-eabi-gcc-
+export CROSS_COMPILE= "Your path to GCC"
+export CROSS_COMPILE_ARM32= "Your path to GCC"
 export ARCH=arm64 && export SUBARCH=arm64
 
 make O=out lavender-perf_defconfig
-make O=out menuconfig
 
 export KBUILD_BUILD_USER=TeoZz
 export KBUILD_BUILD_HOST=RaveRules
 
 DATE_START=$(date +"%s")
 
-make O=out -j8 | tee kernel.log
+make O=out -j$(nproc --all) | tee kernel.log
 
 echo -e "${bldgrn}"
 echo "-------------------"
-echo "Build completato in:"
+echo "Build completed in:"
 echo "-------------------"
 echo -e "${txtrst}"
 
 DATE_END=$(date +"%s")
 DIFF=$(($DATE_END - $DATE_START))
-echo "Time: $(($DIFF / 60)) minuto/i e $(($DIFF % 60)) secondi."
+echo "Time: $(($DIFF / 60)) minute/s e $(($DIFF % 60)) second."
 echo
